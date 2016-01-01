@@ -12,17 +12,27 @@ function TaskAtHandApp()
     function addTask()
     {
         var taskName = $("#new-task-name").val();
+        
         if (taskName) {
             addTaskElement(taskName);
             //Reset the text field.
             $("#new-task-name").val("").focus();
+            $("#due-date").val("");
         }
     }
 
     function addTaskElement(taskName)
     {
         var $task = $('#task-template .task').clone();
-        $("span.task-name", $task).text(taskName);
+        var date = new Date().toLocaleDateString("en-US",
+          {
+            "year": "numeric",
+            "month":"numeric"
+          });
+        var $dueDate = $("#due-date").val();
+        $("span.date", $task).text(date);
+        $("span.task-name", $task).text("-->> " + taskName);
+        $("span.due-date", $task).text("-->> " + $dueDate);
 
         $("#task-list").append($task);
 
@@ -40,11 +50,10 @@ function TaskAtHandApp()
         $("span.task-name", $task).click(function() {
             onEditTaskName($(this));
         });
-        $("input.task-name", $task).change( function  ()
-            {
-                onChangeTaskName($(this));
-            });
-
+        $("input.task-name", $task).change(function()
+        {
+            onChangeTaskName($(this));
+        });
 
         function onEditTaskName($span)
         {
@@ -54,22 +63,23 @@ function TaskAtHandApp()
                 .show()
                 .focus();
         }
-            function onChangeTaskName ($input)
+
+        function onChangeTaskName($input)
+        {
+            $input.hide();
+            var $span = $input.siblings("span.task-name");
+            if ($input.val())
             {
-                $input.hide();
-                var $span = $input.siblings("span.task-name");
-                if ($input.val())
-                {
-                  $span.text($input.val());
-                }
-                $span.show();
+                $span.text($input.val());
             }
+            $span.show();
+        }
 
 
     }
 
     this.start = function() {
-        $("#new-task-name").keypress(function(e)
+        $("#due-date").keypress(function(e)
             {
                 if (e.which == 13) // Enter key
                 {
