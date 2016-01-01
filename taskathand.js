@@ -1,5 +1,4 @@
 'use strict';
-
 function TaskAtHandApp()
 {
     var version = "v1.0";
@@ -12,7 +11,7 @@ function TaskAtHandApp()
     function addTask()
     {
         var taskName = $("#new-task-name").val();
-        
+
         if (taskName) {
             addTaskElement(taskName);
             //Reset the text field.
@@ -25,10 +24,10 @@ function TaskAtHandApp()
     {
         var $task = $('#task-template .task').clone();
         var date = new Date().toLocaleDateString("en-US",
-          {
+        {
             "year": "numeric",
-            "month":"numeric"
-          });
+            "month": "numeric"
+        });
         var $dueDate = $("#due-date").val();
         $("span.date", $task).text(date);
         $("span.task-name", $task).text("-->> " + taskName);
@@ -75,9 +74,7 @@ function TaskAtHandApp()
             $span.show();
         }
 
-
     }
-
     this.start = function() {
         $("#due-date").keypress(function(e)
             {
@@ -93,9 +90,6 @@ function TaskAtHandApp()
         setStatus("ready");
     };
 }
-
-
-
 $(function()
 {
 
